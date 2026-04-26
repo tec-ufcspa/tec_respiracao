@@ -1,10 +1,11 @@
-;('')
+';'
 import { ReactNode } from 'react'
 import Head from 'next/head'
 
 interface LayoutProps {
   children: ReactNode
 }
+
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>

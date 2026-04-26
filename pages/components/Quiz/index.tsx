@@ -1,252 +1,183 @@
-import Question from './Question'
-import ProgressBar from '../ProgressBar'
-import Review from '../Review'
 import { QuestionType } from '@/Types/Props'
 import { useEffect, useState } from 'react'
-
-const questions: QuestionType[] = [
-  {
-    question: 'O que é a terapia expiratória manual passiva?',
-    options: [
-      'Uma técnica para promover a inspiração forçada',
-      'Um método para induzir a tosse reflexa em pacientes',
-      'Uma técnica passiva utilizada para facilitar a expiração sem esforço ativo do paciente',
-      'Um procedimento para aumentar a capacidade vital pulmonar',
-      'Um exercício para fortalecer os músculos respiratórios',
-    ],
-    answer:
-      'Uma técnica passiva utilizada para facilitar a expiração sem esforço ativo do paciente',
-    explanation:
-      'A terapia expiratória manual passiva é utilizada para auxiliar a expiração de pacientes que não conseguem realizar este movimento de forma ativa.',
-  },
-  {
-    question:
-      'Qual é o principal objetivo da técnica de aceleração do fluxo expiratório?',
-    options: [
-      'Aumentar a inspiração máxima do paciente',
-      'Reduzir o volume de ar residual nos pulmões',
-      'Aumentar a pressão arterial durante a expiração',
-      'Facilitar a remoção de secreções pulmonares, acelerando o fluxo do ar expirado',
-      'Promover o relaxamento muscular durante a expiração',
-    ],
-    answer:
-      'Facilitar a remoção de secreções pulmonares, acelerando o fluxo do ar expirado',
-    explanation:
-      'A técnica de aceleração do fluxo expiratório ajuda a remover secreções pulmonares ao acelerar o fluxo de ar durante a expiração.',
-  },
-  {
-    question:
-      'A manobra de aceleração de fluxo é mais frequentemente utilizada em pacientes com:',
-    options: [
-      'Doenças neurológicas',
-      'Lesões ortopédicas',
-      'Doenças respiratórias com acúmulo de secreções, como bronquite e fibrose cística',
-      'Transtornos psicológicos',
-      'Problemas cardiovasculares',
-    ],
-    answer:
-      'Doenças respiratórias com acúmulo de secreções, como bronquite e fibrose cística',
-    explanation:
-      'A manobra de aceleração de fluxo é indicada para pacientes com doenças respiratórias que apresentam secreções pulmonares, como bronquite crônica e fibrose cística.',
-  },
-  {
-    question:
-      'A manobra de Farley Campos é diferente de outras técnicas de aceleração de fluxo porque:',
-    options: [
-      'Envolve a aplicação de pressão no abdômen durante a inspiração',
-      'Utiliza a força do paciente para auxiliar na expiração',
-      'É realizada com a ajuda de dispositivos mecânicos',
-      'Envolve a compressão torácica e redirecionamento do fluxo expiratório com o mínimo de força aplicada',
-      'É realizada somente em pacientes com traqueostomia',
-    ],
-    answer:
-      'Envolve a compressão torácica e redirecionamento do fluxo expiratório com o mínimo de força aplicada',
-    explanation:
-      'A manobra de Farley Campos utiliza a compressão torácica leve e redireciona o fluxo expiratório, facilitando a remoção de secreções sem grande aplicação de força.',
-  },
-  {
-    question:
-      'Qual é o principal benefício da manobra de redirecionamento de fluxo?',
-    options: [
-      'Fortalecer os músculos respiratórios',
-      'Promover o relaxamento dos brônquios',
-      'Melhorar a ventilação seletiva em áreas específicas dos pulmões',
-      'Aumentar a pressão arterial durante a respiração',
-      'Ajudar a prevenir infecções respiratórias',
-    ],
-    answer:
-      'Melhorar a ventilação seletiva em áreas específicas dos pulmões',
-    explanation:
-      'A manobra de redirecionamento de fluxo é usada para direcionar o fluxo de ar para áreas pulmonares menos ventiladas, ajudando na melhora da oxigenação.',
-  },
-  {
-    question:
-      'A técnica de compressão e descompressão torácica é indicada para:',
-    options: [
-      'Pacientes com hipertensão arterial',
-      'Pacientes com dificuldade em eliminar secreções pulmonares',
-      'Indivíduos saudáveis em treinamento esportivo',
-      'Crianças com asma leve',
-      'Pacientes com deformidades da coluna vertebral',
-    ],
-    answer: 'Pacientes com dificuldade em eliminar secreções pulmonares',
-    explanation:
-      'A técnica de compressão e descompressão torácica ajuda na remoção de secreções pulmonares, especialmente em pacientes que têm dificuldade em expectorar.',
-  },
-  {
-    question:
-      'Quais são as contraindicações para a realização da manobra de compressão torácica?',
-    options: [
-      'Insuficiência cardíaca, osteoporose, e pós-operatório de cirurgias abdominais',
-      'Pneumonia leve e asma controlada',
-      'Pacientes sem histórico de doenças respiratórias',
-      'Pacientes com boa capacidade inspiratória e expiratória',
-      'Indivíduos em reabilitação neuromotora',
-    ],
-    answer:
-      'Insuficiência cardíaca, osteoporose, e pós-operatório de cirurgias abdominais',
-    explanation:
-      'A manobra de compressão torácica é contraindicada em pacientes com insuficiência cardíaca, osteoporose ou que estão em pós-operatório de cirurgias abdominais, devido ao risco de lesões.',
-  },
-  {
-    question: 'A técnica de aceleração do fluxo é preferível quando:',
-    options: [
-      'O paciente apresenta pouca mobilidade torácica',
-      'O paciente apresenta secreções pulmonares abundantes',
-      'O paciente está em recuperação pós-cirúrgica',
-      'O paciente tem hipertensão arterial',
-      'O paciente possui alta capacidade pulmonar',
-    ],
-    answer: 'O paciente apresenta secreções pulmonares abundantes',
-    explanation:
-      'A técnica de aceleração do fluxo é recomendada para pacientes que têm secreções pulmonares abundantes e precisam de ajuda para eliminá-las.',
-  },
-  {
-    question:
-      'O que pode indicar a necessidade de utilizar a manobra de redirecionamento de fluxo?',
-    options: [
-      'Tosse seca e ineficaz',
-      'Presença de secreção localizada em áreas específicas dos pulmões',
-      'Dificuldade para inspirar profundamente',
-      'Hiperventilação constante',
-      'Saturação de oxigênio superior a 98%',
-    ],
-    answer:
-      'Presença de secreção localizada em áreas específicas dos pulmões',
-    explanation:
-      'A manobra de redirecionamento de fluxo é indicada quando há secreção localizada em áreas específicas dos pulmões, melhorando a ventilação e a remoção de secreções.',
-  },
-  {
-    question:
-      'Quais são os principais desafios ao aplicar técnicas manuais expiratórias em pacientes com doenças respiratórias crônicas?',
-    options: [
-      'Controle da pressão arterial e frequência cardíaca',
-      'Evitar a hiperinflação pulmonar',
-      'Monitoramento constante da frequência respiratória e da tolerância do paciente',
-      'Realizar a técnica sem causar desconforto na região abdominal',
-      'Gerenciar a dor torácica durante a expiração',
-    ],
-    answer:
-      'Monitoramento constante da frequência respiratória e da tolerância do paciente',
-    explanation:
-      'Um dos principais desafios ao aplicar técnicas manuais expiratórias é monitorar a frequência respiratória e a tolerância do paciente para garantir que a técnica seja segura e eficaz.',
-  },
-]
+import { quizQuestions } from '@/data/quiz'
 
 function shuffleArray(array: QuestionType[]) {
-  const shuffledArray = [...array]
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
+  const a = [...array]
+  for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[shuffledArray[i], shuffledArray[j]] = [
-      shuffledArray[j],
-      shuffledArray[i],
-    ]
+    ;[a[i], a[j]] = [a[j], a[i]]
   }
-  return shuffledArray
+  return a
 }
 
 const Quiz = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [score, setScore] = useState(0)
-  const [showScore, setShowScore] = useState(false)
-  const [status, setStatus] = useState<
-    ('correct' | 'incorrect' | 'pending')[]
-  >(new Array(questions.length).fill('pending'))
-
-  const [userAnswers, setUserAnswers] = useState<string[]>(
-    new Array(questions.length).fill('')
+  const [done, setDone] = useState(false)
+  const [status, setStatus] = useState<('correct' | 'incorrect' | 'pending')[]>(
+    new Array(quizQuestions.length).fill('pending')
   )
+  const [userAnswers, setUserAnswers] = useState<string[]>(
+    new Array(quizQuestions.length).fill('')
+  )
+  const [shuffled, setShuffled] = useState<QuestionType[]>([])
 
-  // Estado para armazenar as questões embaralhadas
-  const [shuffledQuestions, setShuffledQuestions] = useState<
-    QuestionType[]
-  >([])
-
-  // Embaralha as questões quando o componente é montado
   useEffect(() => {
-    setShuffledQuestions(shuffleArray(questions))
+    setShuffled(shuffleArray(quizQuestions))
   }, [])
 
-  const handleAnswerOptionClick = (isCorrect: boolean) => {
+  const handleAnswer = (selectedOption: string) => {
+    const current = shuffled[currentIndex]
+    const isCorrect = selectedOption === current.answer
     const newStatus = [...status]
-    const newUserAnswers = [...userAnswers]
+    const newAnswers = [...userAnswers]
 
-    newStatus[currentQuestionIndex] = isCorrect ? 'correct' : 'incorrect'
-    newUserAnswers[currentQuestionIndex] =
-      shuffledQuestions[currentQuestionIndex].options.find(
-        option => option === shuffledQuestions[currentQuestionIndex].answer
-      ) || ''
-
+    newStatus[currentIndex] = isCorrect ? 'correct' : 'incorrect'
+    newAnswers[currentIndex] = selectedOption
     setStatus(newStatus)
-    setUserAnswers(newUserAnswers)
+    setUserAnswers(newAnswers)
+    if (isCorrect) setScore(s => s + 1)
 
-    if (isCorrect) {
-      setScore(score + 1)
-    }
-
-    const nextQuestion = currentQuestionIndex + 1
-    if (nextQuestion < shuffledQuestions.length) {
-      setCurrentQuestionIndex(nextQuestion)
+    if (currentIndex + 1 < shuffled.length) {
+      setCurrentIndex(i => i + 1)
     } else {
-      setShowScore(true)
+      setDone(true)
     }
   }
 
+  const restart = () => {
+    setShuffled(shuffleArray(quizQuestions))
+    setCurrentIndex(0)
+    setScore(0)
+    setDone(false)
+    setStatus(new Array(quizQuestions.length).fill('pending'))
+    setUserAnswers(new Array(quizQuestions.length).fill(''))
+  }
+
+  const current = shuffled[currentIndex]
+  const total = shuffled.length
+  const progress = done ? 100 : (currentIndex / total) * 100
+
   return (
-    <div className='flex flex-col items-center gap-5'>
-      {showScore ? (
-        <>
-          <div className='text-2xl'>
-            Você acertou {score} de {shuffledQuestions.length} questões.
-          </div>
-          <Review
-            questions={shuffledQuestions}
-            userAnswers={userAnswers}
-            status={status}
+    <div className='min-h-screen bg-gray-100'>
+      {/* Header */}
+      <div className='bg-primary_darker px-5 pt-10 pb-6'>
+        <p className='text-white/60 text-xs font-semibold uppercase tracking-widest mb-1'>
+          {done ? 'Resultado' : `Questão ${currentIndex + 1} de ${total}`}
+        </p>
+        <h1 className='text-2xl font-bold text-white'>Quiz</h1>
+        <p className='text-white/60 text-xs mt-1'>Técnicas Manuais Respiratórias</p>
+        <div className='mt-4 h-1.5 bg-white/20 rounded-full overflow-hidden'>
+          <div
+            className='h-full bg-white rounded-full transition-all duration-300'
+            style={{ width: `${progress}%` }}
           />
-        </>
-      ) : (
-        <>
-          <div className='w-full overflow-x-hidden'>
-            <span className='text-xl font-bold text-primary_darker'>
-              Questão {currentQuestionIndex + 1} de{' '}
-              {shuffledQuestions.length}
-            </span>
-            <hr className='w-full my-4 border-t-2 border-gray-300' />
-          </div>
-          <Question
-            question={shuffledQuestions[currentQuestionIndex]?.question}
-            options={shuffledQuestions[currentQuestionIndex]?.options}
-            handleAnswerOptionClick={handleAnswerOptionClick}
-            answer={shuffledQuestions[currentQuestionIndex]?.answer}
-          />
-          <ProgressBar
-            currentQuestionIndex={currentQuestionIndex}
-            totalQuestions={shuffledQuestions?.length}
-            status={status}
-          />
-        </>
-      )}
+        </div>
+      </div>
+
+      <div className='px-4 py-5 space-y-3'>
+        {done ? (
+          <>
+            {/* Score card */}
+            <div className='bg-white rounded-2xl p-5 shadow-sm text-center'>
+              <p className='text-xs font-bold text-gray-400 uppercase tracking-wider mb-2'>
+                Pontuação
+              </p>
+              <p className='text-5xl font-bold text-primary_darker'>
+                {score}
+                <span className='text-2xl text-gray-400'>/{total}</span>
+              </p>
+              <p className='text-gray-500 text-sm mt-2'>
+                {Math.round((score / total) * 100)}% de acertos
+              </p>
+              <button
+                onClick={restart}
+                className='mt-4 w-full py-3 rounded-2xl bg-primary_darker text-white font-bold active:scale-95 transition-all'
+              >
+                Tentar novamente
+              </button>
+            </div>
+
+            {/* Review */}
+            {shuffled.map((q, i) => (
+              <div
+                key={i}
+                className={`bg-white rounded-2xl p-4 shadow-sm border-l-4 ${
+                  status[i] === 'correct' ? 'border-green-400' : 'border-red-400'
+                }`}
+              >
+                <div className='flex items-center gap-2 mb-2'>
+                  <span
+                    className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                      status[i] === 'correct'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                    }`}
+                  >
+                    {status[i] === 'correct' ? '✓ Correta' : '✗ Incorreta'}
+                  </span>
+                  <span className='text-xs text-gray-400'>Questão {i + 1}</span>
+                </div>
+                <p className='text-gray-800 text-sm font-semibold mb-2'>{q.question}</p>
+                {status[i] === 'incorrect' && (
+                  <div className='bg-red-50 rounded-xl p-3 mb-2'>
+                    <p className='text-xs text-red-500 font-semibold mb-0.5'>Sua resposta</p>
+                    <p className='text-red-700 text-sm'>{userAnswers[i]}</p>
+                  </div>
+                )}
+                <div className='bg-green-50 rounded-xl p-3 mb-2'>
+                  <p className='text-xs text-green-600 font-semibold mb-0.5'>Resposta correta</p>
+                  <p className='text-green-800 text-sm'>{q.answer}</p>
+                </div>
+                <p className='text-gray-500 text-xs leading-relaxed'>{q.explanation}</p>
+              </div>
+            ))}
+          </>
+        ) : (
+          current && (
+            <>
+              {/* Question */}
+              <div className='bg-white rounded-2xl p-5 shadow-sm'>
+                <p className='text-gray-800 text-[15px] font-semibold leading-relaxed'>
+                  {current.question}
+                </p>
+              </div>
+
+              {/* Options */}
+              <div className='space-y-2'>
+                {current.options.map(option => (
+                  <button
+                    key={option}
+                    onClick={() => handleAnswer(option)}
+                    className='w-full text-left bg-white rounded-2xl px-4 py-4 shadow-sm text-gray-700 text-sm font-medium leading-snug active:scale-[0.98] transition-all hover:bg-primary/5 border border-transparent hover:border-primary/20'
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              {/* Dot progress */}
+              <div className='flex gap-1 justify-center pt-2 pb-6 flex-wrap'>
+                {Array.from({ length: total }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-2 rounded-full transition-all ${
+                      i === currentIndex
+                        ? 'w-5 bg-primary_darker'
+                        : status[i] === 'correct'
+                        ? 'w-2 bg-green-400'
+                        : status[i] === 'incorrect'
+                        ? 'w-2 bg-red-400'
+                        : 'w-2 bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )
+        )}
+      </div>
     </div>
   )
 }
