@@ -138,21 +138,29 @@ const Quiz = () => {
           current && (
             <>
               {/* Question */}
-              <div className='bg-white rounded-2xl p-5 shadow-sm'>
-                <p className='text-gray-800 text-[15px] font-semibold leading-relaxed'>
+              <div className='bg-primary_darker rounded-3xl p-6 shadow-lg'>
+                <p className='text-white/50 text-[11px] font-bold uppercase tracking-widest mb-3'>
+                  Pergunta
+                </p>
+                <p className='text-white text-[16px] font-semibold leading-relaxed'>
                   {current.question}
                 </p>
               </div>
 
               {/* Options */}
               <div className='space-y-2'>
-                {current.options.map(option => (
+                {current.options.map((option, i) => (
                   <button
                     key={option}
                     onClick={() => handleAnswer(option)}
-                    className='w-full text-left bg-white rounded-2xl px-4 py-4 shadow-sm text-gray-700 text-sm font-medium leading-snug active:scale-[0.98] transition-all hover:bg-primary/5 border border-transparent hover:border-primary/20'
+                    className='w-full text-left bg-white rounded-2xl px-4 py-3.5 shadow-sm flex items-start gap-3 active:scale-[0.98] transition-all border border-transparent hover:border-primary/30 hover:bg-primary/5'
                   >
-                    {option}
+                    <span className='shrink-0 w-6 h-6 rounded-full bg-primary/15 text-primary_darker text-[11px] font-bold flex items-center justify-center mt-0.5'>
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span className='text-gray-700 text-sm font-medium leading-snug'>
+                      {option}
+                    </span>
                   </button>
                 ))}
               </div>
