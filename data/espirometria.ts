@@ -20,7 +20,7 @@ export const exercicios: Exercicio[] = [
       achados: [
         { parametro: 'VEF1/CVF', valor: '53,95', indica: 'abaixo de 70 → padrão obstrutivo', tipo: 'alterado' },
         { parametro: 'VEF1', valor: '47% prev.', indica: 'grau moderado', tipo: 'alterado' },
-        { parametro: 'CVF', valor: '60% prev.', indica: 'CVF reduzida', tipo: 'alterado' },
+        { parametro: 'CVF', valor: '60% prev.', indica: 'CVF reduzida (CVF - VEF1 >= 13)', tipo: 'alterado' },
         { parametro: 'VEF1 pós-BD', valor: '+17%', indica: 'resposta ao broncodilatador', tipo: 'positivo' },
       ],
       spirometria:
@@ -86,7 +86,7 @@ export const exercicios: Exercicio[] = [
       achados: [
         { parametro: 'FEV1/CVF', valor: '38,96%', indica: 'muito abaixo de 70 → padrão obstrutivo', tipo: 'alterado' },
         { parametro: 'FEV1', valor: '16% prev.', indica: 'grau muito grave', tipo: 'alterado' },
-        { parametro: 'CVF', valor: '31% prev.', indica: 'CVF muito reduzida', tipo: 'alterado' },
+        { parametro: 'CVF', valor: '31% prev.', indica: 'CVF muito reduzida (CVF - VEF1 >= 13)', tipo: 'alterado' },
         { parametro: 'FEV1 pós-BD', valor: '+3%', indica: 'sem resposta ao broncodilatador', tipo: 'alterado' },
         { parametro: 'pH', valor: '7,32', indica: 'acidose', tipo: 'alterado' },
         { parametro: 'PaCO₂', valor: '59 mmHg', indica: 'hipercapnia — retenção de CO₂', tipo: 'alterado' },
